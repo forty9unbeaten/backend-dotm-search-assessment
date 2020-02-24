@@ -34,18 +34,26 @@ def main():
     for path, folders, files in os.walk(args.folder):
         for file in files:
             files_searched += 1
+
+            # find files with .dotm file extensions
             if '.dotm' in file:
                 file_path = os.path.join(path, file)
                 document = ZipFile(file_path, 'r').read('word/document.xml')
                 byte_string = args.text.encode('utf-8')
+
+                # find files with arg text in them
                 if byte_string in document:
                     text_index = document.index(byte_string)
+                    sample_text = document[text_index -
+                                           35:text_index+35].decode('utf-8')
+
+                    # print file information
                     print('\tFile Path:\t' + file_path)
-                    print('\tSample:\t...' +
-                          document[text_index-35:text_index+35].decode('utf-8') +
-                          '...\n')
+                    print('\tSample:\t...' + sample_text + '...\n')
                     print('\t*****************\n')
                     file_matches += 1
+
+    # print scraping report
     print('\tFiles Found:\t' + str(file_matches))
     print('\tFiles Searched:\t' + str(files_searched) + '\n')
 
