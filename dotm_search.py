@@ -5,11 +5,49 @@
 Given a directory path, search all files in the path for a given text string
 within the 'word/document.xml' section of a MSWord .dotm file.
 """
-__author__ = "???"
+__author__ = "Rob Spears (GitHub: Forty9Unbeaten)"
+
+import argparse
+import os
+from zipfile import ZipFile
+
+# parse command-line arguments
+parser = argparse.ArgumentParser(
+    description='Find a string of text in a dotm file')
+parser.add_argument('text', help='The text to search for')
+parser.add_argument(
+    '--directory', '-d',
+    help='The directory to search (default is current directory)',
+    dest='folder',
+    default='.')
+args = parser.parse_args()
 
 
 def main():
-    raise NotImplementedError("Your awesome code begins here!")
+
+    print('\n\tFiles containing ' + args.text)
+    print('\t-------------------\n')
+    files_searched = 0
+    file_matches = 0
+
+    # traverse the file tree and find files with .dotm extension
+    for path, folders, files in os.walk(args.folder):
+        for file in files:
+            files_searched += 1
+            if '.dotm' in file:
+                file_path = os.path.join(path, file)
+                document = ZipFile(file_path, 'r').read('word/document.xml')
+                byte_string = args.text.encode('utf-8')
+                if byte_string in document:
+                    text_index = document.index(byte_string)
+                    print('\tFile Path:\t' + file_path)
+                    print('\tSample:\t...' +
+                          document[text_index-35:text_index+35].decode('utf-8') +
+                          '...\n')
+                    print('\t*****************\n')
+                    file_matches += 1
+    print('\tFiles Found:\t' + str(file_matches))
+    print('\tFiles Searched:\t' + str(files_searched) + '\n')
 
 
 if __name__ == '__main__':
