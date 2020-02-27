@@ -25,7 +25,7 @@ args = parser.parse_args()
 
 def main():
 
-    print('\n\tFiles containing ' + args.text)
+    print('\n\tFiles containing {}'.format(args.text))
     print('\t-------------------\n')
     files_searched = 0
     file_matches = 0
@@ -48,14 +48,14 @@ def main():
                                            40:text_index+41].decode('utf-8')
 
                     # print file information
-                    print('\tFile Path:\t' + file_path)
-                    print('\tSample:\t...' + sample_text + '...\n')
+                    print('\tFile Path:\t{}'.format(file_path))
+                    print('\tSample:\t...{}...\n'.format(sample_text))
                     print('\t*****************\n')
                     file_matches += 1
 
     # print scraping report
-    print('\tFiles Found:\t' + str(file_matches))
-    print('\tFiles Searched:\t' + str(files_searched) + '\n')
+    print('\tFiles Found:\t{}'.format(str(file_matches)))
+    print('\tFiles Searched:\t{}\n'.format(files_searched))
 
 
 if __name__ == '__main__':
