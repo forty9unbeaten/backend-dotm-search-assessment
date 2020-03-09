@@ -45,7 +45,7 @@ def main():
                 if byte_string in document:
                     text_index = document.index(byte_string)
                     sample_text = document[text_index -
-                                           40:text_index+41].decode('utf-8')
+                                           40:text_index+41]
 
                     # print file information
                     print('\tFile Path:\t{}'.format(file_path))
